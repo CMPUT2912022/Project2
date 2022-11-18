@@ -24,6 +24,7 @@ class CommandLineInterface:
             print("Select option")
             for k, f in self.functions.items():
                 print(k + ": " + f[0])
+            print("q: Quit")
             selection = input("Selection: ")
             if selection in self.functions.keys():
                 # Execute function call
