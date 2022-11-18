@@ -27,7 +27,7 @@ class CommandLineInterface:
             selection = input("Selection: ")
             if selection in self.functions.keys():
                 # Execute function call
-                pass
+                self.functions[selection][1]()
             elif selection in ["q", "Q"]:
                 # Quit the application
                 halt = True
