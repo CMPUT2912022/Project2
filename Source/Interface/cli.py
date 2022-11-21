@@ -39,6 +39,13 @@ class CommandLineInterface:
         return
 
     def search_articles(self):
+        '''
+        User should be able to provide one or more keywords, and the 
+        system should retrieve all articles that match all those 
+        keywords (AND semantics).
+
+        Author: Connor
+        '''
         # TODO
         # self.app.search_articles(...)
         pass

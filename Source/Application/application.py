@@ -20,6 +20,9 @@ class Application:
         return
 
     def search_articles(self, keywords):
+        '''
+        Author: Connor
+        '''
         assert type(keywords) is list
         # TODO
         pass
