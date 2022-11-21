@@ -1,18 +1,12 @@
 # Project2
 CMPUT291 Mini-project 2
 
-
-## Starting MongoDB as a background process (MacOS)
+## Starting database in background
 ```bash
-# Intel
-mongod --config /usr/local/etc/mongod.conf --fork
-```
-```bash
-# M1
-mongod --config /opt/homebrew/etc/mongod.conf --fork
+mongod --port 1111 --dbpath /Users/<USER>/Desktop/db_temp
 ```
 
-## Starting MongoDB on a specific port
+## Initializing database (phase 1)
 ```bash
-mongod --port 27012 --dbpath ~/mongodb_data_folder &
+python load_json.py dblp-ref-10.json 1111 
 ```
