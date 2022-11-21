@@ -45,7 +45,6 @@ def init_collection_from_file(filename, db):
 
     line = fo.readline()
     while line:
-        print(line)
         ret = db.dblp.insert_one(json.loads(line))
         line = fo.readline()
 
