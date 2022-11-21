@@ -11,3 +11,8 @@ mongod --config /usr/local/etc/mongod.conf --fork
 # M1
 mongod --config /opt/homebrew/etc/mongod.conf --fork
 ```
+
+## Starting MongoDB on a specific port
+```bash
+mongod --port 27012 --dbpath ~/mongodb_data_folder &
+```

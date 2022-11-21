@@ -9,7 +9,7 @@ def main():
 
     # Get database argument
     if len(sys.argv) > 1:
-        port = sys.argv[1]
+        port = int(sys.argv[1])
         app = Application(db_ip, port, db_name)
         interface = CommandLineInterface(app)
 
