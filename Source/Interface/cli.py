@@ -39,13 +39,18 @@ class CommandLineInterface:
         return
 
     def search_articles(self):
+        # TODO
+        # self.app.search_articles(...)
         pass
 
     def search_authors(self):
+        # TODO
         pass
     
     def list_venues(self):
+        # TODO
         pass
     
     def add_article(self):
+        # TODO
         pass

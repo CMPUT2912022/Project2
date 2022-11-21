@@ -19,14 +19,19 @@ class Application:
         self.db = self.client[db_name]
         return
 
-    def search_articles(self):
+    def search_articles(self, keywords):
+        assert type(keywords) is list
+        # TODO
         pass
 
-    def search_authors(self):
+    def search_authors(self, keyword):
+        # TODO
         pass
     
     def list_venues(self):
+        # TODO
         pass
     
     def add_article(self):
+        # TODO
         pass
