@@ -51,13 +51,22 @@ class CommandLineInterface:
         pass
 
     def search_authors(self):
+        '''
+        Author: Leon
+        '''
         # TODO
         pass
     
     def list_venues(self):
+        '''
+        Author: Brandon
+        '''
         # TODO
         pass
     
     def add_article(self):
+        '''
+        Author: Brandon
+        '''
         # TODO
         pass
