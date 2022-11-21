@@ -1,4 +1,5 @@
 import sys
+from pymongo import MongoClient
 
 def main():
     if len(sys.argv) > 2:
@@ -14,7 +15,11 @@ def main():
 
 
 def init_db(filename, port):
-    pass
+    assert type(filename) is str
+    assert type(port) is int
+
+    client = MongoClient("127.0.0.1", port)
+    db = self.client["dblp"]
 
 
 
