@@ -55,7 +55,7 @@ class Application:
         if chosen.lower() == "back":
             return
         else:
-            
+            return
         
         #returns nothingn all work is done here
         return
