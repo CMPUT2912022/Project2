@@ -54,8 +54,14 @@ class CommandLineInterface:
         '''
         Author: Leon
         '''
+        keyword = input("Search for: ")
+        if keyword.lower() == "back":
+            return
+        else:
+            self.app.search_authors(keyword)
+        
         # TODO
-        pass
+        return
     
     def list_venues(self):
         '''

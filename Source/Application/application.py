@@ -38,8 +38,27 @@ class Application:
         '''
         Author: Leon
         '''
-        # TODO
-        pass
+        table = self.db["dblp"]
+        results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        
+        for item in results:
+            name_index = 0
+            n_publications = 0
+            for name in item["authors"]:
+                if keyword.lower() in name.lower():
+                    name_index = item["authors"].index(name)
+                    n_publications = table.count_documents({"authors": name})
+            print(f"Author: {item['authors'][name_index] : <30}Publications: {n_publications}")
+
+        
+        chosen = input("Select an author:")
+        if chosen.lower() == "back":
+            return
+        else:
+            
+        
+        #returns nothingn all work is done here
+        return
     
     def list_venues(self):
         '''
