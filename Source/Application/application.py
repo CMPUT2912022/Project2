@@ -21,7 +21,14 @@ class Application:
 
     def search_articles(self, keywords):
         '''
+        Takes multiple keywords and retrieves all articles matching those keywords from db.
+        Matches title, authors, abstract, venue and year fields (case insensitive).
+
         Author: Connor
+
+        params:
+            keywords : list[str]
+        returns matching articles : list[json]
         '''
         assert type(keywords) is list
         # TODO
