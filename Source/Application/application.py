@@ -2,6 +2,7 @@
 Stores all the methods pertaining to the Data Access Layer (DAL)
 """
 
+import re
 from pymongo import MongoClient
 
 
@@ -31,8 +32,14 @@ class Application:
         returns matching articles : list[json]
         '''
         assert type(keywords) is list
-        # TODO
-        pass
+        regex_keys = ["/(?:" + kw + ")/gi" for kw in keywords]
+        self.db.dblp.find({"title" : {"$in": regex_keys}}, 
+                          {"authors" : {"$in": regex_keys}},
+                          {"abstract" : {"$in": regex_keys}},
+                          {"venue" : {"$in": regex_keys}},
+                          {"year" : {"$in": regex_keys}}
+                          )
+        return
 
     def search_authors(self, keyword):
         '''

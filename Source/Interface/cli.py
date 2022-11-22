@@ -46,9 +46,9 @@ class CommandLineInterface:
 
         Author: Connor
         '''
-        # TODO
-        # self.app.search_articles(...)
-        pass
+        keywords = input("Enter Keywords (space separated):").split()
+        self.app.search_articles(keywords)
+
 
     def search_authors(self):
         '''
