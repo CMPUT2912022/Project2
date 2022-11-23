@@ -1,5 +1,5 @@
 import sys, json
-from pymongo import MongoClient
+from pymongo import MongoClient, TEXT
 from pymongo.errors import ConnectionFailure
 
 def main():
@@ -47,6 +47,17 @@ def init_collection_from_file(filename, db):
     while line:
         ret = db.dblp.insert_one(json.loads(line))
         line = fo.readline()
+    db.dblp.create_index(
+            [
+                ("title", TEXT),
+                ("authors", TEXT),
+                ("abstract", TEXT),
+                ("venue", TEXT),
+                ("year", TEXT)
+            ],
+            default_language = "english",
+            )
+    return
 
 
 

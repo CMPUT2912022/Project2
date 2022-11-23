@@ -50,7 +50,7 @@ class CommandLineInterface:
 
         Author: Connor
         '''
-        keywords = input("\nEnter Keywords (space separated): ").split()
+        keywords = input("\nEnter Keywords (space separated): ")
         result = self.app.search_articles(keywords)
 
         trimmed_result = [{"id": d["id"], "title": d["title"], "year": d["year"], "venue":d["venue"]}
@@ -76,7 +76,8 @@ class CommandLineInterface:
                 print(self.delim_str)
                 pprint(result[article_index])
                 print("\n\nReferred to by:")
-                pprint(self.app.get_referees(str(result[article_index]["_id"])))
+                print(type(result[article_index]["id"]))
+                pprint(self.app.get_referees(result[article_index]["id"]))
         return
 
     def search_authors(self):

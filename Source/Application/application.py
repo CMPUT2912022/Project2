@@ -20,25 +20,17 @@ class Application:
         self.db = self.client[db_name]
         return
 
-    def search_articles(self, keywords):
+    def search_articles(self, search):
         '''
         Takes multiple keywords and retrieves all articles matching those keywords from db.
         Matches title, authors, abstract, venue and year fields (case insensitive).
         Author: Connor
         params:
-            keywords : list[str]
+            search : str
         returns list[json]    matching articles 
         '''
-        assert type(keywords) is list
-        regex_keys = ''.join(["(?=.*" + key + ")" for key in keywords])
-        result = self.db.dblp.find({"$or" : 
-                                    [{"title" : {"$regex": regex_keys, "$options": "i"}}, 
-                                     {"authors" : {"$regex": regex_keys, "$options": "i"}},
-                                     {"abstract" : {"$regex": regex_keys, "$options": "i"}},
-                                     {"venue" : {"$regex": regex_keys, "$options": "i"}},
-                                     {"year" : {"$regex": regex_keys, "$options": "i"}}
-                                     ]
-                           })
+        assert type(search) is str
+        result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}})
         return list(result)
 
     def get_referees(self, aid):
