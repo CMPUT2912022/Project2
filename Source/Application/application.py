@@ -57,8 +57,6 @@ class Application:
         ran = 0
         print()
         for name in results:
-            if not ran:
-                print("Author")
             ran = 1
             name_index = 0
             n_publications = 0
@@ -82,7 +80,7 @@ class Application:
                         found = 1
                         info = table.find({"authors": name}).sort("year", -1)
                         for element in info:
-                            print(f"Title: {element['title']:<0} | Year: {element['year']} | Venue: {element['venue']: >10}")
+                            print(f"Title: {element['title']:<70} | Year: {element['year']} | Venue: {element['venue']: >10}")
                 if not found:
                     print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
                 else:
