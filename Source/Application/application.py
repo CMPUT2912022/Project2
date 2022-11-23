@@ -24,12 +24,10 @@ class Application:
         '''
         Takes multiple keywords and retrieves all articles matching those keywords from db.
         Matches title, authors, abstract, venue and year fields (case insensitive).
-
         Author: Connor
-
         params:
             keywords : list[str]
-        returns matching articles : list[json]
+        returns list[json]    matching articles 
         '''
         assert type(keywords) is list
         regex_keys = ''.join(["(?=.*" + key + ")" for key in keywords])
@@ -41,6 +39,18 @@ class Application:
                                      {"year" : {"$regex": regex_keys, "$options": "i"}}
                                      ]
                            })
+        return list(result)
+
+    def get_referees(self, aid):
+        '''
+        Gets all articles referring to a particular article
+        Author: Connor
+        params:
+            aid: str    Article id
+        returns list(dict)  matching articles
+        '''
+        assert type(aid) is str
+        result = self.db.dblp.find({"references": aid})
         return list(result)
 
     def search_authors(self, keyword):
