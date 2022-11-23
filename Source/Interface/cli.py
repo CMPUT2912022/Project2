@@ -62,6 +62,21 @@ class CommandLineInterface:
             pprint(trimmed_result[i], indent=4)
             print("\n")
 
+        # Allow user to select a particular article for more info
+        prompt = "Article number for more info (or 'q' to quit): "
+        selection = input(prompt)
+        while selection not in ['q', 'Q'] and (not selection.isnumeric() or int(selection) not in range(len(result))):
+            # Check that selection is a number and in correct range, or quit symbol, 
+            print("\nInvalid input!")
+            selection = input(prompt)
+
+        if selection not in ['q', 'Q']:
+            article_index = int(selection)
+            print(self.delim_str)
+            pprint(result[article_index])
+        return
+
+
 
     def search_authors(self):
         '''
