@@ -51,7 +51,16 @@ class CommandLineInterface:
         '''
         keywords = input("\nEnter Keywords (space separated): ").split()
         result = self.app.search_articles(keywords)
-        pprint(result)
+
+
+        trimmed_result = [{"id": d["id"], "title": d["title"], "year": d["year"], "venue":d["venue"]}
+                 for d in result
+                 ]
+
+        for i in range(len(trimmed_result)):
+            print("Article No", i, ":")
+            pprint(trimmed_result[i], indent=4)
+            print("\n")
 
 
     def search_authors(self):
