@@ -2,6 +2,8 @@
 Command Line Interface (CLI) for Application
 """
 
+from pprint import pprint
+
 class CommandLineInterface:
     functions = []
     def __init__(self, app):
@@ -47,7 +49,8 @@ class CommandLineInterface:
         Author: Connor
         '''
         keywords = input("Enter Keywords (space separated):").split()
-        self.app.search_articles(keywords)
+        result = self.app.search_articles(keywords)
+        pprint(result)
 
 
     def search_authors(self):

@@ -32,14 +32,16 @@ class Application:
         returns matching articles : list[json]
         '''
         assert type(keywords) is list
-        regex_keys = ["/(?:" + kw + ")/gi" for kw in keywords]
-        self.db.dblp.find({"title" : {"$in": regex_keys}}, 
-                          {"authors" : {"$in": regex_keys}},
-                          {"abstract" : {"$in": regex_keys}},
-                          {"venue" : {"$in": regex_keys}},
-                          {"year" : {"$in": regex_keys}}
-                          )
-        return
+        regex_keys = ''.join(["(?=.*" + key + ")" for key in keywords])
+        result = self.db.dblp.find({"$or" : 
+                                    [{"title" : {"$regex": regex_keys, "$options": "i"}}, 
+                                     {"authors" : {"$regex": regex_keys, "$options": "i"}},
+                                     {"abstract" : {"$regex": regex_keys, "$options": "i"}},
+                                     {"venue" : {"$regex": regex_keys, "$options": "i"}},
+                                     {"year" : {"$regex": regex_keys, "$options": "i"}}
+                                     ]
+                           })
+        return list(result)
 
     def search_authors(self, keyword):
         '''
