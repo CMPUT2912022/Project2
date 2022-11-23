@@ -39,26 +39,45 @@ class Application:
         Author: Leon
         '''
         table = self.db["dblp"]
-        results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        #results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        results = table.distinct("authors", {"authors": { "$regex": f"{keyword}", "$options" :"i"}})
         
-        for item in results:
+        authors = []
+        ran = 0
+        print()
+        for name in results:
+            if not ran:
+                print("Author")
+            ran = 1
             name_index = 0
             n_publications = 0
-            for name in item["authors"]:
-                if keyword.lower() in name.lower():
-                    name_index = item["authors"].index(name)
-                    n_publications = table.count_documents({"authors": name})
-            print(f"Author: {item['authors'][name_index] : <30}Publications: {n_publications}")
+            if keyword.lower() in name.lower():
+                authors.append(name)
+                n_publications = table.count_documents({"authors": name})
+                print(f"Author: {name : <30}Publications: {n_publications}")
+        if not ran:
+            print("Nothing found...  (╯°□° ）╯︵ ┻━┻")
+            return
+        while 1:
+            print()
+            chosen = input("Select an author: ")
+            if chosen.lower() == "back":
+                return
+            else:
+                found = 0
+                print()
+                for name in authors:
+                    if chosen == name:
+                        found = 1
+                        info = table.find({"authors": name}).sort("year", -1)
+                        for element in info:
+                            print(f"Title: {element['title']:<0} | Year: {element['year']} | Venue: {element['venue']: >10}")
+                if not found:
+                    print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
+                else:
+                    return
+            #returns nothingn all work is done here
 
-        
-        chosen = input("Select an author:")
-        if chosen.lower() == "back":
-            return
-        else:
-            return
-        
-        #returns nothingn all work is done here
-        return
     
     def list_venues(self):
         '''
