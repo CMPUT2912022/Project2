@@ -6,6 +6,7 @@ from pprint import pprint
 
 class CommandLineInterface:
     functions = []
+    delim_str = "\n\n" + "="*70 + "\n\n"
     def __init__(self, app):
         self.app = app
         self.functions = {
@@ -36,8 +37,8 @@ class CommandLineInterface:
                 halt = True
             else:
                 # Invalid input
-                print("\n\n\nInvalid selection\n\n")
-            print()
+                print("\nInvalid selection!")
+            print(self.delim_str)
         return
 
     def search_articles(self):
@@ -48,7 +49,7 @@ class CommandLineInterface:
 
         Author: Connor
         '''
-        keywords = input("Enter Keywords (space separated):").split()
+        keywords = input("\nEnter Keywords (space separated): ").split()
         result = self.app.search_articles(keywords)
         pprint(result)
 
@@ -79,3 +80,4 @@ class CommandLineInterface:
         '''
         # TODO
         pass
+
