@@ -8,6 +8,8 @@ mongod --port 1111 --dbpath /Users/<USER>/Desktop/db_temp
 
 ### Initializing database (phase 1)
 ```bash
+# From root of project directory
+cd Source
 python load_json.py dblp-ref-10.json 1111 
 ```
 ### Running the program
