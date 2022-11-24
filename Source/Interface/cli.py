@@ -138,10 +138,29 @@ class CommandLineInterface:
         '''
         Author: Brandon
         '''
-        count =int(input("Enter the number of articles: (Enter '0' to return)"))
-        if count == 0:
-            return 
-        else: 
+        user_input = ""
+        correct_input = False
+        should_exit = False
+        while not correct_input:
+            user_input = input("Enter the number of articles: ('q' to quit)")
+            print()
+            if user_input.isnumeric():
+                if int(user_input) <= 0:
+                    print("Enter a number greater than zero.\n")
+                else:
+                    # Input is a number greater than zero
+                    correct_input = True
+
+            elif user_input in ['q', 'Q']:
+                correct_input = True
+                should_exit = True
+
+            else:
+                # Handles all possible edge cases
+                print("Incorrect input type")
+
+        if correct_input and not should_exit:
+            count = int(user_input)
             for i in range(count):
                 self.app.add_article()
 
