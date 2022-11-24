@@ -142,7 +142,7 @@ class Application:
         for i in range(0,input_numofauthors):
             ele=[input("Enter the name of the authors:")]
             authors.append(ele)
-            input_year=int(input("Enter the year:"))
+        input_year=int(input("Enter the year:"))
         doc={
                 "id": input_id,
                 "title": input_title,
