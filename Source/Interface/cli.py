@@ -104,6 +104,10 @@ class CommandLineInterface:
         '''
         Author: Brandon
         '''
-        # TODO
-        pass
+        count =int(input("Enter the number of articles:")
+        if keyword.lower()=="back":
+            return 
+        else: 
+            for i in range(count):
+                self.app.add_article()
 
