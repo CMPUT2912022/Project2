@@ -105,6 +105,10 @@ class CommandLineInterface:
         '''
         Author: Brandon
         '''
-        # TODO
-        pass
+        count =int(input("Enter the number of articles: (Enter '0' to return)"))
+        if count == 0:
+            return 
+        else: 
+            for i in range(count):
+                self.app.add_article()
 
