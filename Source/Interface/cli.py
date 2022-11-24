@@ -95,8 +95,22 @@ class CommandLineInterface:
     
     def list_venues(self):
         '''
-        Author: Brandon
+        Author: Brandon, Leon 
         '''
+
+        n = input("Number of venues to show: ")
+        try:
+            n = int(n)
+        except:
+            if n.lower() == "back":
+                return
+            else:
+                print()
+                print("Not a number! ಠ_ಠ")
+                return
+        
+        self.app.list_venues(int(n))
+        
         # TODO
         pass
     

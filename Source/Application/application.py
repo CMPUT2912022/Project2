@@ -51,7 +51,7 @@ class Application:
         Author: Leon
         '''
         table = self.db["dblp"]
-        #results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        #results = table.distinct("authors", {"authors": keyword})
         results = table.distinct("authors", {"authors": { "$regex": f"{keyword}", "$options" :"i"}})
         
         authors = []
@@ -89,9 +89,9 @@ class Application:
             #returns nothingn all work is done here
 
     
-    def list_venues(self):
+    def list_venues(self, n):
         '''
-        Author: Brandon
+        Author: Brandon, Leon 
         '''
 
         table = self.db["dblp"]
@@ -106,8 +106,18 @@ class Application:
         #        }
         #    ])
         
-
-
+        results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
+        #find all unique venues
+        for venue in results:
+            #for each venue find all books in that venue
+            books = table.find({"venue": venue}, {"id": 1, "_id":0})
+            count = 0
+            for book in books:
+                ID = book["id"]
+                current = table.count_documents({"references": ID})
+                count += current
+            print(f"Venue: {venue} | Articles: 0 | References to venue: {count}")
+        
         # TODO
         pass
     
