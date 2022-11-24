@@ -43,7 +43,7 @@ class Application:
         returns list(dict)  matching articles
         '''
         assert type(aid) is str
-        result = self.db.dblp.find({"references": aid}, projection = ["id","title","year","venue","abstract","authors"])
+        result = self.db.dblp.find({"references": aid}, projection = ["id","title","year"])
         return list(result)
 
     def search_authors(self, keyword):
