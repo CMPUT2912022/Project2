@@ -47,6 +47,9 @@ For phase 2, the people responsible for a particular task were responsible for i
   - 1 on frame/general structure of application
   - 2 on various
 - Leon: 12 hours
+- Brandon: 13 hours
+  - 3 on adding article 
+  - 10 on list venues 
 
 ## Coordination
 We kept our code synchronized through GitHub. Significant problems that couldn't be immediately solved were documented in GitHub issues. Communication was facilitated through text and discord.
