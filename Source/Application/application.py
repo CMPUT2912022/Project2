@@ -20,52 +20,74 @@ class Application:
         self.db = self.client[db_name]
         return
 
-    def search_articles(self, keywords):
+    def search_articles(self, search):
         '''
         Takes multiple keywords and retrieves all articles matching those keywords from db.
         Matches title, authors, abstract, venue and year fields (case insensitive).
-
         Author: Connor
-
         params:
-            keywords : list[str]
-        returns matching articles : list[json]
+            keywords : list(str)
+        returns list[json]    matching articles 
         '''
-        assert type(keywords) is list
-        regex_keys = ["/(?:" + kw + ")/gi" for kw in keywords]
-        self.db.dblp.find({"title" : {"$in": regex_keys}}, 
-                          {"authors" : {"$in": regex_keys}},
-                          {"abstract" : {"$in": regex_keys}},
-                          {"venue" : {"$in": regex_keys}},
-                          {"year" : {"$in": regex_keys}}
-                          )
-        return
+        assert type(search) is str
+        #result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
+        result = self.db.dblp.find({"$text": {"$search": search}}, projection = ["id","title","year","venue"])
+        return list(result)
+
+    def get_referees(self, aid):
+        '''
+        Gets all articles referring to a particular article
+        Author: Connor
+        params:
+            aid: str    Article id
+        returns list(dict)  matching articles
+        '''
+        assert type(aid) is str
+        result = self.db.dblp.find({"references": aid})
+        return list(result)
 
     def search_authors(self, keyword):
         '''
         Author: Leon
         '''
         table = self.db["dblp"]
-        results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        #results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        results = table.distinct("authors", {"authors": { "$regex": f"{keyword}", "$options" :"i"}})
         
-        for item in results:
+        authors = []
+        ran = 0
+        print()
+        for name in results:
+            ran = 1
             name_index = 0
             n_publications = 0
-            for name in item["authors"]:
-                if keyword.lower() in name.lower():
-                    name_index = item["authors"].index(name)
-                    n_publications = table.count_documents({"authors": name})
-            print(f"Author: {item['authors'][name_index] : <30}Publications: {n_publications}")
+            if keyword.lower() in name.lower():
+                authors.append(name)
+                n_publications = table.count_documents({"authors": name})
+                print(f"Author: {name : <30}Publications: {n_publications}")
+        if not ran:
+            print("Nothing found...  (╯°□° ）╯︵ ┻━┻")
+            return
+        while 1:
+            print()
+            chosen = input("Select an author: ")
+            if chosen.lower() == "back":
+                return
+            else:
+                found = 0
+                print()
+                for name in authors:
+                    if chosen == name:
+                        found = 1
+                        info = table.find({"authors": name}).sort("year", -1)
+                        for element in info:
+                            print(f"Title: {element['title']:<70} | Year: {element['year']} | Venue: {element['venue']: >10}")
+                if not found:
+                    print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
+                else:
+                    return
+            #returns nothingn all work is done here
 
-        
-        chosen = input("Select an author:")
-        if chosen.lower() == "back":
-            return
-        else:
-            return
-        
-        #returns nothingn all work is done here
-        return
     
     def list_venues(self):
         '''

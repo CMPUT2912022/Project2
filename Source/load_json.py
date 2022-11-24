@@ -1,6 +1,7 @@
 import sys, json
-from pymongo import MongoClient
+from pymongo import MongoClient, TEXT
 from pymongo.errors import ConnectionFailure
+from pymongo.collation import Collation
 
 def main():
     if len(sys.argv) > 2:
@@ -47,6 +48,17 @@ def init_collection_from_file(filename, db):
     while line:
         ret = db.dblp.insert_one(json.loads(line))
         line = fo.readline()
+    db.dblp.create_index(
+            [
+                ("title", TEXT),
+                ("authors", TEXT),
+                ("abstract", TEXT),
+                ("venue", TEXT),
+                ("year", TEXT)
+            ],
+            default_language = "english"
+            )
+    return
 
 
 

@@ -2,8 +2,12 @@
 Command Line Interface (CLI) for Application
 """
 
+from pprint import pprint
+
+
 class CommandLineInterface:
     functions = []
+    delim_str = "\n\n" + "="*70 + "\n\n"
     def __init__(self, app):
         self.app = app
         self.functions = {
@@ -34,8 +38,8 @@ class CommandLineInterface:
                 halt = True
             else:
                 # Invalid input
-                print("\n\n\nInvalid selection\n\n")
-            print()
+                print("\nInvalid selection!")
+            print(self.delim_str)
         return
 
     def search_articles(self):
@@ -46,9 +50,35 @@ class CommandLineInterface:
 
         Author: Connor
         '''
-        keywords = input("Enter Keywords (space separated):").split()
-        self.app.search_articles(keywords)
+        search = input("\nEnter Keywords (space separated): ")
+        result = self.app.search_articles(search)
 
+        trimmed_result = [{"id": d["id"], "title": d["title"], "year": d["year"], "venue":d["venue"]}
+                 for d in result
+                 ]
+
+        for i in range(len(trimmed_result)):
+            print("Article No", i, ":")
+            pprint(trimmed_result[i], indent=4)
+            print("\n")
+
+        if len(result) > 0:
+            # Allow user to select a particular article for more info
+            prompt = "Article number for more info (or 'q' to quit): "
+            selection = input(prompt)
+            while selection not in ['q', 'Q'] and (not selection.isnumeric() or int(selection) not in range(len(result))):
+                # Check that selection is a number and in correct range, or quit symbol, 
+                print("\nInvalid input!")
+                selection = input(prompt)
+
+            if selection not in ['q', 'Q']:
+                article_index = int(selection)
+                print(self.delim_str)
+                pprint(result[article_index])
+                print("\n\nReferred to by:")
+                print(type(result[article_index]["id"]))
+                pprint(self.app.get_referees(result[article_index]["id"]))
+        return
 
     def search_authors(self):
         '''
@@ -76,3 +106,4 @@ class CommandLineInterface:
         '''
         # TODO
         pass
+
