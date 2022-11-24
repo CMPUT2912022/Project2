@@ -24,9 +24,10 @@ class Application:
         '''
         Takes multiple keywords and retrieves all articles matching those keywords from db.
         Matches title, authors, abstract, venue and year fields (case insensitive).
+        Used for: Phase 2 part 1
         Author: Connor
         params:
-            keywords : list(str)
+            search : str
         returns list[json]    matching articles 
         '''
         assert type(search) is str
@@ -37,6 +38,7 @@ class Application:
     def get_referees(self, aid):
         '''
         Gets all articles referring to a particular article
+        Used for: Phase 2 part 1
         Author: Connor
         params:
             aid: str    Article id
@@ -48,6 +50,7 @@ class Application:
 
     def search_authors(self, keyword):
         '''
+        Used for: Phase 2 part 2
         Author: Leon
         '''
         table = self.db["dblp"]
@@ -57,6 +60,7 @@ class Application:
     def get_total_pubs(self, author_name):
         '''
         Returns total publications for an author.
+        Used for: Phase 2 part 2
         Author: Leon, Connor
         '''
         return self.db.dblp.count_documents({"authors": author_name})
@@ -64,12 +68,14 @@ class Application:
     def get_author_details(self, author_name):
         '''
         Gets details about a particular author.
+        Used for: Phase 2 part 2
         Author: Leon, Connor
         '''
         return self.db.dblp.find({"authors": author_name}).sort("year", -1)
     
     def list_venues(self, n):
         '''
+        Used for: Phase 2 part 3
         Author: Brandon, Leon 
         '''
 
@@ -99,6 +105,7 @@ class Application:
     
     def add_article(self):
         '''
+        Used for: Phase 2 part 4
         Author: Brandon
         '''
         authors=[]
