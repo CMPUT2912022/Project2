@@ -25,6 +25,8 @@ This, as well, makes it easier to create unit tests since the interface can be i
 
 ## Testing strategy
 Ideally, given more time, we would have written unit tests for our entire application layer (data access layer); though for the most part we ended up having to manually run and verify our queries and their integrity.
+For "search for articles" we tested whether the 'and' semantics were met by including more keywords and seeing if the total results stayed the same or went down. We made sure stopwords weren't included by searching with terms like "the".
+For "search for authors" we tested that each following result was correctly sorted by checking through our interface.
 
 ## Source code quality
 Our source code contains docstrings on files and methods as an aide. We attempted to keep nesting to a minimum to avoid complexity. Only one point of return is used in most functions so as to not accidentally bypass code that might be executed at the end of a function (as well as avoiding complexity). Input/output operations are kept in batches for runtime performance (a benefit of abstracting all database operations to a separate layer).
