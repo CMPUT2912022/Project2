@@ -71,6 +71,20 @@ class Application:
         '''
         Author: Brandon
         '''
+        table = self.db["dblp"]
+        grouped_table = table.aggregate([
+            {$match:{
+                venue: 
+                
+                },
+            {$group:
+                {venue: "$venue"
+                    }
+                }
+            ])
+        
+
+
         # TODO
         pass
     
@@ -78,5 +92,31 @@ class Application:
         '''
         Author: Brandon
         '''
-        # TODO
-        pass
+        authors=[]
+        input_id=input("Enter the unique id:")
+        input_title=input("Enter the title:")
+        input_numofauthors=int(input("Enter the number of authors:"))
+        for i in rangee(0,input_numofauthors):
+            ele=[input("Enter the name of the authors:")]
+            authors.append(ele)
+            input_year=int(input("Enter the year:")
+        doc=
+            {
+                "id": input_id,
+                "title": input_title,
+                "authors": authors,
+                "venue": None,
+                "year": input_year,
+                "n_citation": 0,
+                "references": [],
+                "abstract": None
+                }
+        try:
+            self.db.dblp.insert_one(doc)
+            return true
+        except Exception as e:
+            print("Error occured:",e)
+            return false
+
+
+
