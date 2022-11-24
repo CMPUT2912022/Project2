@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, os
 from pymongo import MongoClient, TEXT
 from pymongo.errors import ConnectionFailure
 from pymongo.collation import Collation
@@ -38,16 +38,11 @@ def init_db(filename, port):
 
     # init collection
     db["dblp"]
-    init_collection_from_file(filename, db)
 
+    # Mass import from given file
+    os.system("mongoimport --host=localhost:" + str(port) + " --file " + filename + " --db 291db --collection dblp")
 
-def init_collection_from_file(filename, db):
-    fo = open(filename, 'r')
-
-    line = fo.readline()
-    while line:
-        ret = db.dblp.insert_one(json.loads(line))
-        line = fo.readline()
+    # Create indices
     db.dblp.create_index(
             [
                 ("title", TEXT),
