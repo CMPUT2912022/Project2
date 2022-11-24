@@ -80,28 +80,23 @@ class Application:
         '''
 
         table = self.db["dblp"]
-        #grouped_table = table.aggregate([
-        #    {$match:{
-        #        venue: 
-        #        
-        #        },
-        #    {$group:
-        #        {venue: "$venue"
-        #            }
-        #        }
-        #    ])
-        
-        results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
-        #find all unique venues
-        for venue in results:
-            #for each venue find all books in that venue
-            books = table.find({"venue": venue}, {"id": 1, "_id":0})
-            count = 0
-            for book in books:
-                ID = book["id"]
-                current = table.count_documents({"references": ID})
-                count += current
-            print(f"Venue: {venue} | Articles: 0 | References to venue: {count}")
+
+        results = table.aggregate([
+            {"$group":{
+                    "_id": "$venue",
+                    "Articles": {"$sum":1}
+                }
+             },
+             {"$sort": {"References_venue": -1}
+
+              },
+
+             {"$limit":n
+              }
+
+            ])
+        for item in results:
+            print(item)
     
     def add_article(self):
         '''
