@@ -46,6 +46,7 @@ For phase 2, the people responsible for a particular task were responsible for i
   - 2 on refactoring
   - 1 on frame/general structure of application
   - 2 on various
+- Leon: 12 hours
 
 ## Coordination
 We kept our code synchronized through GitHub. Significant problems that couldn't be immediately solved were documented in GitHub issues. Communication was facilitated through text and discord.
