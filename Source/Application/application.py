@@ -24,19 +24,21 @@ class Application:
         '''
         Takes multiple keywords and retrieves all articles matching those keywords from db.
         Matches title, authors, abstract, venue and year fields (case insensitive).
+        Used for: Phase 2 part 1
         Author: Connor
         params:
-            keywords : list(str)
+            search : str
         returns list[json]    matching articles 
         '''
         assert type(search) is str
         search_and = "\"" + "\" \"".join(search.split()) + "\""
-        result = self.db.dblp.find({"$text": {"$search": search_and}}, projection = ["id","title","year","venue"])
+        result = self.db.dblp.find({"$text": {"$search": search_and}}, projection = ["id","title","year","venue","abstract","authors"])
         return list(result)
 
     def get_referees(self, aid):
         '''
         Gets all articles referring to a particular article
+        Used for: Phase 2 part 1
         Author: Connor
         params:
             aid: str    Article id
@@ -48,49 +50,32 @@ class Application:
 
     def search_authors(self, keyword):
         '''
+        Used for: Phase 2 part 2
         Author: Leon
         '''
         table = self.db["dblp"]
-        #results = table.distinct("authors", {"authors": keyword})
-        results = table.distinct("authors", {"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        results = table.distinct("authors", {"authors": { "$regex": f"\\b{keyword}\\b", "$options" :"i"}})
+        return results
         
-        authors = []
-        ran = 0
-        print()
-        for name in results:
-            ran = 1
-            name_index = 0
-            n_publications = 0
-            if keyword.lower() in name.lower():
-                authors.append(name)
-                n_publications = table.count_documents({"authors": name})
-                print(f"Author: {name : <30}Publications: {n_publications}")
-        if not ran:
-            print("Nothing found...  (╯°□° ）╯︵ ┻━┻")
-            return
-        while 1:
-            print()
-            chosen = input("Select an author: ")
-            if chosen.lower() == "back":
-                return
-            else:
-                found = 0
-                print()
-                for name in authors:
-                    if chosen == name:
-                        found = 1
-                        info = table.find({"authors": name}).sort("year", -1)
-                        for element in info:
-                            print(f"Title: {element['title']:<70} | Year: {element['year']} | Venue: {element['venue']: >10}")
-                if not found:
-                    print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
-                else:
-                    return
-            #returns nothingn all work is done here
+    def get_total_pubs(self, author_name):
+        '''
+        Returns total publications for an author.
+        Used for: Phase 2 part 2
+        Author: Leon, Connor
+        '''
+        return self.db.dblp.count_documents({"authors": author_name})
 
+    def get_author_details(self, author_name):
+        '''
+        Gets details about a particular author.
+        Used for: Phase 2 part 2
+        Author: Leon, Connor
+        '''
+        return self.db.dblp.find({"authors": author_name}).sort("year", -1)
     
     def list_venues(self, n):
         '''
+        Used for: Phase 2 part 3
         Author: Brandon, Leon 
         '''
 
@@ -105,50 +90,22 @@ class Application:
         #            }
         #        }
         #    ])
-
-        results = table.aggregate([
-            {"$group":{
-                    "_id": "$venue",
-                    "Articles": {"$sum":1}
-                }
-             },
-             {"$sort": {"References_venue": -1}
-
-              },
-              
-             {"$limit":n
-              }
-                
-            ])
-        for item in results:
-            print(item)
-        '''
+        
         results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
         #find all unique venues
-        final = []
         for venue in results:
             #for each venue find all books in that venue
             books = table.find({"venue": venue}, {"id": 1, "_id":0})
             count = 0
             for book in books:
-                #for every book that is in our venue, find all spots where that book id is referenced
                 ID = book["id"]
                 current = table.count_documents({"references": ID})
-                count += 5
-            #n_articles = table.count_documents({"venue": venue})
-            
-            final.append((venue, 0, count))
-        print("aaaaaa")
-       # for i in range(0,n):
-           # max_value = max(my_list, key=lambda tup: tup[2])
-           # final.remove(max_value)
-           # print(f"{i+1})Venue: {max_value[0]} | Articles: {max_value[1]} | References to venue: {max_value[2]}")
-        '''
-        # TODO
-        pass
+                count += current
+            print(f"Venue: {venue} | Articles: 0 | References to venue: {count}")
     
     def add_article(self):
         '''
+        Used for: Phase 2 part 4
         Author: Brandon
         '''
         authors=[]
@@ -175,6 +132,4 @@ class Application:
         except Exception as e:
             print("Error occured:",e)
             return False
-
-
 
