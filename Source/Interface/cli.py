@@ -110,9 +110,6 @@ class CommandLineInterface:
         
         self.app.list_venues(int(n))
         
-        # TODO
-        pass
-    
     def add_article(self):
         '''
         Author: Brandon

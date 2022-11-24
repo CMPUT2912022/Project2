@@ -85,8 +85,6 @@ class Application:
                     print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
                 else:
                     return
-            #returns nothingn all work is done here
-
     
     def list_venues(self, n):
         '''
