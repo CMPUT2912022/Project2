@@ -1,16 +1,49 @@
-# Project2
-CMPUT291 Mini-project 2
+# Mini-project 2
 
-## Starting database in background
+## General guide
+### Starting database in background
 ```bash
 mongod --port 1111 --dbpath /Users/<USER>/Desktop/db_temp
 ```
 
-## Initializing database (phase 1)
+### Initializing database (phase 1)
 ```bash
 python load_json.py dblp-ref-10.json 1111 
 ```
+### Running the program
+```bash
+# From root of project directory
+cd Source
+python main.py 1111
+```
 
-## Search for articles
-With two keywords k1 and k2, we will consider it a match if k1 appears in any of the fields title, authors, abstract, venue and year and k2 appears in any of the same fields. They don't have to appear in the same field for a match. [ref](https://eclass.srv.ualberta.ca/mod/forum/discuss.php?d=2123952)
+## Software design
+This program was designed to be easily adapted to different interfaces by abstracting all the application logic into it's own layer. Our interface makes calls to the application layer to get/set data, leaving the responsibility of displaying information and handling input to the interface layer.  
+This, as well, makes it easier to create unit tests since the interface can be ignored; tests are run on the data returned by the application layer.
 
+## Testing strategy
+Ideally, given more time, we would have written unit tests for our entire application layer (data access layer); though for the most part we ended up having to manually run and verify our queries and their integrity.
+
+## Source code quality
+Our source code contains docstrings on files and methods as an aide. We attempted to keep nesting to a minimum to avoid complexity. Only one point of return is used in most functions so as to not accidentally bypass code that might be executed at the end of a function (as well as avoiding complexity). Input/output operations are kept in batches for runtime performance (a benefit of abstracting all database operations to a separate layer).
+
+## Project breakdown
+- Phase 1
+  - group effort via pair programming
+- Phase 2
+  - Search for articles: Connor
+  - Search for authors: Leon, Connor
+  - List the venues: Brandon, Leon
+  - Add an article: Brandon
+  
+For phase 2, the people responsible for a particular task were responsible for implementing both the interface and application layers.
+
+## Aggregate hours spent
+- Connor: 15 hours
+  - 10 on search for articles
+  - 2 on refactoring
+  - 1 on frame/general structure of application
+  - 2 on various
+
+## Coordination
+We kept our code synchronized through GitHub. Significant problems that couldn't be immediately solved were documented in GitHub issues. Communication was facilitated through text and discord.
