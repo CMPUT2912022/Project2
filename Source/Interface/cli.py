@@ -90,8 +90,6 @@ class CommandLineInterface:
             return
         else:
             self.app.search_authors(keyword)
-        
-        # TODO
         return
     
     def list_venues(self):

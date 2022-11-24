@@ -31,7 +31,7 @@ class Application:
         '''
         assert type(search) is str
         search_and = "\"" + "\" \"".join(search.split()) + "\""
-        result = self.db.dblp.find({"$text": {"$search": search_and}}, projection = ["id","title","year","venue"])
+        result = self.db.dblp.find({"$text": {"$search": search_and}}, projection = ["id","title","year","venue","abstract","authors"])
         return list(result)
 
     def get_referees(self, aid):
@@ -52,7 +52,7 @@ class Application:
         '''
         table = self.db["dblp"]
         #results = table.find({"authors": { "$regex": f"{keyword}", "$options" :"i"}})
-        results = table.distinct("authors", {"authors": { "$regex": f"{keyword}", "$options" :"i"}})
+        results = table.distinct("authors", {"authors": { "$regex": f"\\b{keyword}\\b", "$options" :"i"}})
         
         authors = []
         ran = 0
