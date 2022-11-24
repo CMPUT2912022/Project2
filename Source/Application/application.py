@@ -105,19 +105,45 @@ class Application:
         #            }
         #        }
         #    ])
-        
+
+        results = table.aggregate([
+            {"$group":{
+                    "_id": "$venue",
+                    "Articles": {"$sum":1}
+                }
+             },
+             {"$sort": {"References_venue": -1}
+
+              },
+              
+             {"$limit":n
+              }
+                
+            ])
+        for item in results:
+            print(item)
+        '''
         results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
         #find all unique venues
+        final = []
         for venue in results:
             #for each venue find all books in that venue
             books = table.find({"venue": venue}, {"id": 1, "_id":0})
             count = 0
             for book in books:
+                #for every book that is in our venue, find all spots where that book id is referenced
                 ID = book["id"]
                 current = table.count_documents({"references": ID})
-                count += current
-            print(f"Venue: {venue} | Articles: 0 | References to venue: {count}")
-        
+                count += 5
+            #n_articles = table.count_documents({"venue": venue})
+            
+            final.append((venue, 0, count))
+        print("aaaaaa")
+       # for i in range(0,n):
+           # max_value = max(my_list, key=lambda tup: tup[2])
+           # final.remove(max_value)
+           # print(f"{i+1})Venue: {max_value[0]} | Articles: {max_value[1]} | References to venue: {max_value[2]}")
+        '''
         # TODO
         pass
     
