@@ -53,7 +53,11 @@ def init_db(filename, port):
             ],
             default_language = "none"
             )
-    db.dblp.create_index([("year", -1)])
+    db.dblp.create_index([("authors",1)])
+    db.dblp.create_index([("id",1)])
+    db.dblp.create_index([("venue",1)])
+    db.dblp.create_index([("references",1)])
+    
     return
 
 
