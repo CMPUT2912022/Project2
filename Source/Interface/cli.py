@@ -76,8 +76,9 @@ class CommandLineInterface:
                 print(self.delim_str)
                 pprint(result[article_index])
                 print("\n\nReferred to by:")
-                print(type(result[article_index]["id"]))
-                pprint(self.app.get_referees(result[article_index]["id"]))
+                aid = result[article_index]["id"]
+                result = self.app.get_referees(aid)
+                pprint(result)
         return
 
     def search_authors(self):

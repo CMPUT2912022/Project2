@@ -30,7 +30,6 @@ class Application:
         returns list[json]    matching articles 
         '''
         assert type(search) is str
-        #result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
         result = self.db.dblp.find({"$text": {"$search": search}}, projection = ["id","title","year","venue"])
         return list(result)
 
@@ -43,7 +42,7 @@ class Application:
         returns list(dict)  matching articles
         '''
         assert type(aid) is str
-        result = self.db.dblp.find({"references": aid})
+        result = self.db.dblp.find({"references": aid}, projection = ["id","title","year","venue","abstract","authors"])
         return list(result)
 
     def search_authors(self, keyword):
