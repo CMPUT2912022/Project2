@@ -82,21 +82,53 @@ class Application:
         table = self.db["dblp"]
 
         results = table.aggregate([
+            {
+            "$match": {
+              "$expr": {
+                "$not": {
+                  "$eq": [
+                    "$venue",
+                    ""
+                  ]
+                }
+              }
+            }
+          },
             {"$group":{
                     "_id": "$venue",
                     "Articles": {"$sum":1}
                 }
              },
-             {"$sort": {"References_venue": -1}
 
-              },
+            ])       
+        #results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
+        #find all unique venues
+        #final = []
+        for venue in results:
+            #for each venue find all books in that venue
+            books = table.find({"venue": f"{venue['_id']}"}, {"id": 1, "_id":0})
+            amount = 0
+            for book in books:
+                current_id = book["id"]
+                current = table.count_documents({"references": current_id})
+                amount += current
+        print(venue["_id"], amount)
+           
+            
+        ##    count = 0
+        #    for book in books:
+        #        #for every book that is in our venue, find all spots where that book id is referenced
+         #       ID = book["id"]
+        #        current = table.count_documents({"references": ID})
+        #        count += 5
+            #n_articles = table.count_documents({"venue": venue})
+            
+        #    final.append((venue, 0, count))
+        #print("aaaaaa")
+             
 
-             {"$limit":n
-              }
-
-            ])
-        for item in results:
-            print(item)
+           
+        
     
     def add_article(self):
         '''
