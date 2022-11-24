@@ -20,7 +20,7 @@ def init_db(filename, port):
     assert type(filename) is str
     assert type(port) is int
 
-    client = MongoClient("127.0.0.1", port, serverSelectionTimeoutMS=1000)
+    client = MongoClient("127.0.0.1", port)
 
     try:
         client.admin.command('ismaster')
@@ -51,7 +51,7 @@ def init_db(filename, port):
                 ("venue", TEXT),
                 ("year", TEXT)
             ],
-            default_language = "english"
+            default_language = "none"
             )
     db.dblp.create_index([("authors",1)])
     return

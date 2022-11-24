@@ -30,8 +30,8 @@ class Application:
         returns list[json]    matching articles 
         '''
         assert type(search) is str
-        #result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
-        result = self.db.dblp.find({"$text": {"$search": search}}, projection = ["id","title","year","venue"])
+        search_and = "\"" + "\" \"".join(search.split()) + "\""
+        result = self.db.dblp.find({"$text": {"$search": search_and}}, projection = ["id","title","year","venue"])
         return list(result)
 
     def get_referees(self, aid):
@@ -43,7 +43,7 @@ class Application:
         returns list(dict)  matching articles
         '''
         assert type(aid) is str
-        result = self.db.dblp.find({"references": aid})
+        result = self.db.dblp.find({"references": aid}, projection = ["id","title","year"])
         return list(result)
 
     def search_authors(self, keyword):
