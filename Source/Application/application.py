@@ -30,7 +30,9 @@ class Application:
         returns list[json]    matching articles 
         '''
         assert type(search) is str
-        result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}})
+        search = '\\"' + '\\" \\"'.join(search.split()) + '\\"'
+        result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
+        print("\n\n",search,"\n\n")
         return list(result)
 
     def get_referees(self, aid):
