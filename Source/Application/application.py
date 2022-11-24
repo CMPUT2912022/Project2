@@ -93,17 +93,18 @@ class Application:
         '''
         Author: Brandon
         '''
+
         table = self.db["dblp"]
-        grouped_table = table.aggregate([
-            {$match:{
-                venue: 
-                
-                },
-            {$group:
-                {venue: "$venue"
-                    }
-                }
-            ])
+        #grouped_table = table.aggregate([
+        #    {$match:{
+        #        venue: 
+        #        
+        #        },
+        #    {$group:
+        #        {venue: "$venue"
+        #            }
+        #        }
+        #    ])
         
 
 
