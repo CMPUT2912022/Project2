@@ -1,6 +1,7 @@
 import sys, json
 from pymongo import MongoClient, TEXT
 from pymongo.errors import ConnectionFailure
+from pymongo.collation import Collation
 
 def main():
     if len(sys.argv) > 2:
@@ -55,7 +56,7 @@ def init_collection_from_file(filename, db):
                 ("venue", TEXT),
                 ("year", TEXT)
             ],
-            default_language = "english",
+            default_language = "english"
             )
     return
 

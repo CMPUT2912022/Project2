@@ -50,8 +50,8 @@ class CommandLineInterface:
 
         Author: Connor
         '''
-        keywords = input("\nEnter Keywords (space separated): ")
-        result = self.app.search_articles(keywords)
+        search = input("\nEnter Keywords (space separated): ")
+        result = self.app.search_articles(search)
 
         trimmed_result = [{"id": d["id"], "title": d["title"], "year": d["year"], "venue":d["venue"]}
                  for d in result

@@ -26,13 +26,12 @@ class Application:
         Matches title, authors, abstract, venue and year fields (case insensitive).
         Author: Connor
         params:
-            search : str
+            keywords : list(str)
         returns list[json]    matching articles 
         '''
         assert type(search) is str
-        search = '\\"' + '\\" \\"'.join(search.split()) + '\\"'
-        result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
-        print("\n\n",search,"\n\n")
+        #result = self.db.dblp.find({"$text":{"$search": search, "$caseSensitive": False}}, projection = ["id","title","year","venue"])
+        result = self.db.dblp.find({"$text": {"$search": search}}, projection = ["id","title","year","venue"])
         return list(result)
 
     def get_referees(self, aid):
