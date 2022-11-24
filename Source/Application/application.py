@@ -135,10 +135,10 @@ class Application:
                 }
         try:
             self.db.dblp.insert_one(doc)
-            return true
+            return True
         except Exception as e:
             print("Error occured:",e)
-            return false
+            return False
 
 
 
