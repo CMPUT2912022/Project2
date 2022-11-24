@@ -83,13 +83,37 @@ class CommandLineInterface:
 
     def search_authors(self):
         '''
-        Author: Leon
+        Author: Leon, Connor
         '''
-        keyword = input("Search for: ")
-        if keyword.lower() == "back":
-            return
-        else:
-            self.app.search_authors(keyword)
+        keyword = input("Search ('back' to exit): ")
+        if keyword.lower() != "back":
+            print()
+            results = self.app.search_authors(keyword)
+            authors = {}
+            for name in results:
+                if keyword.lower() in name.lower():
+                    n_publications = self.app.get_total_pubs(name)
+                    authors[name] = n_publications
+                    print(f"Author: {name : <30}Publications: {n_publications}")
+
+            if len(authors)>0:
+                should_halt = False
+                chosen = ""
+                while not should_halt:
+                    chosen = input("Select an author ('back' to exit): ")
+                    if chosen.lower() == "back":
+                        should_halt = True
+                    elif chosen in authors:
+                        print()
+                        auth = authors[chosen]
+                        info = self.app.get_author_details(chosen)
+                        for element in info:
+                            print(f"Title: {element['title']:<70} | Year: {element['year']} | Venue: {element['venue']: >10}")
+                        should_halt = True
+                    else:
+                        print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
+            else:
+                print("Nothing found...  (╯°□° ）╯︵ ┻━┻")
         return
     
     def list_venues(self):

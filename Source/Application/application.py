@@ -52,39 +52,21 @@ class Application:
         '''
         table = self.db["dblp"]
         results = table.distinct("authors", {"authors": { "$regex": f"\\b{keyword}\\b", "$options" :"i"}})
+        return results
         
-        authors = []
-        ran = 0
-        print()
-        for name in results:
-            ran = 1
-            name_index = 0
-            n_publications = 0
-            if keyword.lower() in name.lower():
-                authors.append(name)
-                n_publications = table.count_documents({"authors": name})
-                print(f"Author: {name : <30}Publications: {n_publications}")
-        if not ran:
-            print("Nothing found...  (╯°□° ）╯︵ ┻━┻")
-            return
-        while 1:
-            print()
-            chosen = input("Select an author: ")
-            if chosen.lower() == "back":
-                return
-            else:
-                found = 0
-                print()
-                for name in authors:
-                    if chosen == name:
-                        found = 1
-                        info = table.find({"authors": name}).sort("year", -1)
-                        for element in info:
-                            print(f"Title: {element['title']:<70} | Year: {element['year']} | Venue: {element['venue']: >10}")
-                if not found:
-                    print("Could not find specified artist. Type the exact name or type 'back' to return to the previous menu. ~(˘▾˘~)")
-                else:
-                    return
+    def get_total_pubs(self, author_name):
+        '''
+        Returns total publications for an author.
+        Author: Leon, Connor
+        '''
+        return self.db.dblp.count_documents({"authors": author_name})
+
+    def get_author_details(self, author_name):
+        '''
+        Gets details about a particular author.
+        Author: Leon, Connor
+        '''
+        return self.db.dblp.find({"authors": author_name}).sort("year", -1)
     
     def list_venues(self, n):
         '''
