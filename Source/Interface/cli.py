@@ -105,7 +105,7 @@ class CommandLineInterface:
         Author: Brandon
         '''
         count =int(input("Enter the number of articles: (Enter '0' to return)"))
-        if count.lower() == 0:
+        if count == 0:
             return 
         else: 
             for i in range(count):
