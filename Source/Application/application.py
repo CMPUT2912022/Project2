@@ -99,8 +99,12 @@ class Application:
                     "Articles": {"$sum":1}
                 }
              },
+            {"$sort" : {"Articles": -1}},
+            {"$limit": n}
 
-            ])       
+            ])
+        #for item in results:
+        #    print(item)
         #results = table.distinct("venue",{"venue" : {"$exists": True, "$ne" : ""}})
         #find all unique venues
         #final = []
@@ -112,7 +116,8 @@ class Application:
                 current_id = book["id"]
                 current = table.count_documents({"references": current_id})
                 amount += current
-        print(venue["_id"], amount)
+        
+            print(f"Name: {venue['_id']} | Articles in venue: {venue['Articles']} | References to venue:{amount}")
            
             
         ##    count = 0
@@ -142,7 +147,7 @@ class Application:
         for i in range(0,input_numofauthors):
             ele=[input("Enter the name of the authors:")]
             authors.append(ele)
-        input_year=int(input("Enter the year:"))
+            input_year=int(input("Enter the year:"))
         doc={
                 "id": input_id,
                 "title": input_title,
