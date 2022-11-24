@@ -53,6 +53,7 @@ def init_db(filename, port):
             ],
             default_language = "english"
             )
+    db.dblp.create_index([("authors",1)])
     return
 
 
